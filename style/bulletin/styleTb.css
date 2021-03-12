@@ -1,0 +1,48 @@
+table {
+	border-collapse: collapse;
+	border: 1px solid #0000FF;
+	width: 95%;	
+	margin: auto;
+	}
+	tr, td, th {
+		border: 1px solid Black;
+		height: 40px;	
+	}
+	p{
+		margin-left: 25px;
+	}
+	b{
+		margin-left: 42%;
+	}
+	hr {
+		margin-left: 20px;
+		width: 99%;
+		border:1px double;
+	}
+	div , .infoEleve{	
+		float: left;
+	 	display:block;
+	 	margin-left: 10px;
+	}
+	.tire {
+		width: 95%;	
+		margin: auto;
+	}
+	.infoEcole{	
+		width: 95%;
+	}
+	.a{
+		margin-left: 70px;
+	}
+	.b{
+		margin-left: 70px;
+	}
+	.c{
+		margin-left: 15px;
+	}
+	.d{
+		margin-left: 340px;
+	}
+	.e{
+		margin-left: 15px;
+	}

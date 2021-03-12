@@ -1,0 +1,990 @@
+		<?php
+	 	$req1 = $pdo->prepare("SELECT * FROM classe, avoirmatiere
+            WHERE   classe.niveau=avoirmatiere.niveau	            		
+            classe.serie=avoirmatiere.serie");
+		$req1->execute();
+
+		if ($req1){
+		          
+		        $nbreLigne1 = $req1->fetchAll();
+		        //var_dump($nbreLigne);
+		        $i = 0;
+		        foreach ($nbreLigne1 as $key => $value1) {
+		        	$i = ++$i;
+
+			        if ($i < $nbreLigne1) {    
+
+
+					  $req = $pdo->prepare("SELECT * FROM note, eleve
+			            WHERE note.nomSemestre='".$_POST['semestre']."'
+
+			              AND note.classe='".$_POST['classe']."'
+			              AND note.classe='".$value1['classe']."'
+
+			              AND note.anneeScolaire='".$_POST['anneeScolaire']."'
+			              AND note.anneeScolaire='".$value1['anneeScolaire']."'
+
+			              AND note.niveau='".$_POST['niveau']."'
+			              AND note.niveau='".$value1['niveau']."'
+
+			              AND note.serie='".$_POST['serie']."'
+			              AND note.serie='".$value1['serie']."'
+
+			              AND note.coef='".$value1['coef']."'
+
+			              AND eleve.matricule=note.eleve
+			              
+			              order by note.rang asc ");
+					  $req->execute();
+
+		              if ($req){
+		          
+				        $nbreLigne = $req->fetchAll();
+				        //var_dump($nbreLigne);
+				        $i = 0;
+				        foreach ($nbreLigne as $key => $value) {
+				        	$i = ++$i; 
+
+					        if ($i < $nbreLigne) { 
+		?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?php 
+      	if (!empty($_POST['semestre']) && !empty($_POST['classe']) && !empty($_POST['anneeScolaire'])
+      		 && !empty($_POST['niveau']) && !empty($_POST['serie']) ) {
+      		 
+
+       ?>
+
+		<div id='section2Aimprimer'>
+
+		<?php
+	 	 $req1 = $pdo->prepare("SELECT * FROM note, eleve
+
+            WHERE note.nomSemestre='".$_POST['semestre']."'
+              AND note.classe='".$_POST['classe']."'
+              AND note.anneeScolaire='".$_POST['anneeScolaire']."'
+              AND note.niveau='".$_POST['niveau']."'
+              AND note.serie='".$_POST['serie']."'
+              AND note.eleve=eleve.matricule
+              
+
+              order by note.rang asc ");
+		  $req1->execute();
+
+          if ($req1){
+      
+	        $nbreLigne1 = $req1->fetchAll();
+	        //var_dump($nbreLigne);
+
+	        $i = 0;
+	        foreach ($nbreLigne1 as $key => $value1) {
+	        	$i = ++$i; 
+	        	
+	        	if ($i < $nbreLigne1) { 
+
+		  $req = $pdo->prepare("SELECT * FROM note, classe
+
+            WHERE note.nomSemestre='".$_POST['semestre']."'
+              AND note.classe='".$_POST['classe']."'
+              AND note.anneeScolaire='".$_POST['anneeScolaire']."'
+              AND note.niveau='".$_POST['niveau']."'
+              AND note.serie='".$_POST['serie']."'
+
+              AND classe.nom=note.classe
+              AND note.eleve='".$value1['eleve']."'
+              AND note.matiere='".$value1['matiere']."'
+              
+              order by note.rang asc ");
+		  $req->execute();
+
+          if ($req){
+      
+	        $nbreLigne = $req->fetchAll();
+	        //var_dump($nbreLigne);
+	        $i = 0;
+	        foreach ($nbreLigne as $key => $value) {
+	        	$i = ++$i; 
+
+		        if ($i < $nbreLigne) { 
+		?>
+
+		<div class="infoEcole">
+			<div class="c">
+				<br> KAOLACK
+				<br> KAOLACK
+				<br> LYCEE NDOFFANE
+				<br>
+			</div>
+			<div class="d">
+				<br> Année Scolaire : <?php echo $value['anneeScolaire']; ?>
+				<br> <?php echo $value['nomSemestre']; ?>
+				<br>
+			</div>
+		</div>
+
+		<div class="tire">
+			<p>================================================================================ <br>
+
+				<b>BULLETIN DE NOTES</b>
+
+			<br>================================================================================</p>
+		</div>
+		<div class="infoEleve">
+			<div>
+				Pénom : <?php echo $value1['prenom']; ?>
+				<br> Nom : <?php echo $value1['nom']; ?>
+				<br> Matricule : <?php echo $value['eleve']; ?>
+				<br> Né(e) le : <?php echo $value1['dateNaissance']." à ".$value1['lieuNaissance'] ; ?>
+				<br><br>
+			</div>
+			<div class="a">
+				Classe : <?php echo $value['classe']; ?>
+				<br> Serie : <?php echo $value['serie']; ?>
+				<br> Nombre d'élèves : 05
+				<br><br>
+			</div>
+			<div class="b">
+				Classe doublée : Néant
+				<br> Année doublée : Néant
+				<br><br>
+			</div>
+		</div>
+
+		<form>
+
+			<table class="tb1">
+				<tr>
+					<th>DISCIPLINES</th>
+					<th class="dv">DEVOIRS</th>
+					<th class="compo">COMPOSITION</th>
+					<th class="moy">MOYENNE</th>
+					<th class="coef">COEF</th>
+					<th class="moyX">MOYENNE X</th>
+					<th class="th">TH</th>
+					<th class="rang">RANG</th>
+					<th class="app">APPRECIATIONS</th>
+				</tr>
+				<tr>
+					<th><?php echo $value['matiere']; ?></th>
+					<td><?php echo $value['noteDevoir']; ?></td>
+					<td><?php echo $value['noteComposition']; ?></td>
+					<td><?php echo $value['moyenne']; ?></td>
+					<td><?php echo $value['coef']; ?></td>
+					<td><?php echo $value['moyenneX']; ?></td>
+					<td>TH</td>
+					<td><?php echo $value['rang']; ?></td>
+					<td><?php echo $value['appreciation']; ?></td>
+				</tr>
+				<tr>
+					<th><?php echo $value['matiere']; ?></th>
+					<td><?php echo $value['noteDevoir']; ?></td>
+					<td><?php echo $value['noteComposition']; ?></td>
+					<td><?php echo $value['moyenne']; ?></td>
+					<td><?php echo $value['coef']; ?></td>
+					<td><?php echo $value['moyenneX']; ?></td>
+					<td>TH</td>
+					<td><?php echo $value['rang']; ?></td>
+					<td><?php echo $value['appreciation']; ?></td>
+				</tr>
+				<tr>
+					<th><?php echo $value['matiere']; ?></th>
+					<td><?php echo $value['noteDevoir']; ?></td>
+					<td><?php echo $value['noteComposition']; ?></td>
+					<td><?php echo $value['moyenne']; ?></td>
+					<td><?php echo $value['coef']; ?></td>
+					<td><?php echo $value['moyenneX']; ?></td>
+					<td>TH</td>
+					<td><?php echo $value['rang']; ?></td>
+					<td><?php echo $value['appreciation']; ?></td>
+				</tr>
+				<tr>
+					<th><?php echo $value['matiere']; ?></th>
+					<td><?php echo $value['noteDevoir']; ?></td>
+					<td><?php echo $value['noteComposition']; ?></td>
+					<td><?php echo $value['moyenne']; ?></td>
+					<td><?php echo $value['coef']; ?></td>
+					<td><?php echo $value['moyenneX']; ?></td>
+					<td>TH</td>
+					<td><?php echo $value['rang']; ?></td>
+					<td><?php echo $value['appreciation']; ?></td>
+				</tr>
+				<tr>
+					<th><?php echo $value['matiere']; ?></th>
+					<td><?php echo $value['noteDevoir']; ?></td>
+					<td><?php echo $value['noteComposition']; ?></td>
+					<td><?php echo $value['moyenne']; ?></td>
+					<td><?php echo $value['coef']; ?></td>
+					<td><?php echo $value['moyenneX']; ?></td>
+					<td>TH</td>
+					<td><?php echo $value['rang']; ?></td>
+					<td><?php echo $value['appreciation']; ?></td>
+				</tr>
+				<tr>
+					<th><?php echo $value['matiere']; ?></th>
+					<td><?php echo $value['noteDevoir']; ?></td>
+					<td><?php echo $value['noteComposition']; ?></td>
+					<td><?php echo $value['moyenne']; ?></td>
+					<td><?php echo $value['coef']; ?></td>
+					<td><?php echo $value['moyenneX']; ?></td>
+					<td>TH</td>
+					<td><?php echo $value['rang']; ?></td>
+					<td><?php echo $value['appreciation']; ?></td>
+				</tr>
+				<tr>
+					<th><?php echo $value['matiere']; ?></th>
+					<td><?php echo $value['noteDevoir']; ?></td>
+					<td><?php echo $value['noteComposition']; ?></td>
+					<td><?php echo $value['moyenne']; ?></td>
+					<td><?php echo $value['coef']; ?></td>
+					<td><?php echo $value['moyenneX']; ?></td>
+					<td>TH</td>
+					<td><?php echo $value['rang']; ?></td>
+					<td><?php echo $value['appreciation']; ?></td>
+				</tr>
+				<tr>
+					<th>TOTAL</th>
+					<td colspan="3"></td>
+					<td></td>
+					<td></td>
+					<td colspan="3"></td>
+				</tr>
+				
+			</table>
+			<?php } } } ?>
+			<br/>
+			<?php
+			$req = $pdo->prepare("SELECT moyGenerale, rang FROM noteSemestre
+			  WHERE noteSemestre.nomSemestre='".$_POST['semestre']."'
+			    AND noteSemestre.classe='".$_POST['classe']."'
+			    AND noteSemestre.anneeScolaire='".$_POST['anneeScolaire']."'
+			    AND noteSemestre.eleve='".$value1['eleve']."'
+			     ");
+			$req->execute();
+
+			if ($req){
+			          
+			        $nbreLigne = $req->fetchAll();
+			        //var_dump($nbreLigne);
+			        $i = 0;
+			        foreach ($nbreLigne as $key => $value2) {
+			        	$i = ++$i; 
+
+				        if ($i < $nbreLigne) {                       
+				                      
+					        $moyGenerale = $value2['moyGenerale'];
+					        $rang = $value2['rang'];
+
+			?>
+			<table>
+				<tr>
+					<th>MOYENNE <br> SEMESTRIELLE</th>
+					<th>RANG</th>
+					<th>APPRECIATIONS</th>
+					<th colspan="2">ABSENCES</th>
+					<th rowspan="7" class="large">Pour le conseil des Professeurs <br> <br> <br> Le chef d'Etablissement</th>
+				</tr>
+				<tr>
+					<td rowspan="2"><center><?php echo $moyGenerale; ?></center></td>
+					<td rowspan="2"><center><?php echo $rang; ?></center></td>
+					<td rowspan="2"></td>
+					<td>Justifier</td>
+					<td>Non Justifier</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<th colspan="5">REMARQUE DU CONSEIL</th>
+				</tr>
+				<tr>
+					<th colspan="5"></th>
+				</tr>
+				<tr>
+					<th>FELICITATION</th>
+					<th>ENCOURAGEMENT</th>
+					<th>TABLEAU D'HONEUR</th>
+					<th>AVERTISSEMENT</th>
+					<th>BLAME</th>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</table>
+		</form>
+<br><br><br><br><br><br><br><br><br><br>
+
+		<?php } } } } }}} ?>
+      <?php 
+      	if (!empty($_POST['semestre']) && !empty($_POST['classe']) && !empty($_POST['anneeScolaire'])
+      		 && !empty($_POST['niveau']) && !empty($_POST['serie']) ) {
+      		 
+
+       ?>
+
+		<div id='section2Aimprimer'>
+
+		<?php
+	 	 $req1 = $pdo->prepare("SELECT * FROM note, eleve
+
+            WHERE note.nomSemestre='".$_POST['semestre']."'
+              AND note.classe='".$_POST['classe']."'
+              AND note.anneeScolaire='".$_POST['anneeScolaire']."'
+              AND note.niveau='".$_POST['niveau']."'
+              AND note.serie='".$_POST['serie']."'
+              AND note.eleve=eleve.matricule
+              
+
+              order by note.rang asc ");
+		  $req1->execute();
+
+          if ($req1){
+      
+	        $nbreLigne1 = $req1->fetchAll();
+	        //var_dump($nbreLigne);
+
+	        $i = 0;
+	        foreach ($nbreLigne1 as $key => $value1) {
+	        	$i = ++$i; 
+	        	
+	        	if ($i < $nbreLigne1) { 
+
+		  $req = $pdo->prepare("SELECT * FROM note, classe
+
+            WHERE note.nomSemestre='".$_POST['semestre']."'
+              AND note.classe='".$_POST['classe']."'
+              AND note.anneeScolaire='".$_POST['anneeScolaire']."'
+              AND note.niveau='".$_POST['niveau']."'
+              AND note.serie='".$_POST['serie']."'
+
+              AND classe.nom=note.classe
+              AND note.eleve='".$value1['eleve']."'
+              AND note.matiere='".$value1['matiere']."'
+              
+              order by note.rang asc ");
+		  $req->execute();
+
+          if ($req){
+      
+	        $nbreLigne = $req->fetchAll();
+	        //var_dump($nbreLigne);
+	        $i = 0;
+	        foreach ($nbreLigne as $key => $value) {
+	        	$i = ++$i; 
+
+		        if ($i < $nbreLigne) { 
+		?>
+
+		<div class="infoEcole">
+			<div class="c">
+				<br> KAOLACK
+				<br> KAOLACK
+				<br> LYCEE NDOFFANE
+				<br>
+			</div>
+			<div class="d">
+				<br> Année Scolaire : <?php echo $value['anneeScolaire']; ?>
+				<br> <?php echo $value['nomSemestre']; ?>
+				<br>
+			</div>
+		</div>
+
+		<div class="tire">
+			<p>================================================================================ <br>
+
+				<b>BULLETIN DE NOTES</b>
+
+			<br>================================================================================</p>
+		</div>
+		<div class="infoEleve">
+			<div>
+				Pénom : <?php echo $value1['prenom']; ?>
+				<br> Nom : <?php echo $value1['nom']; ?>
+				<br> Matricule : <?php echo $value['eleve']; ?>
+				<br> Né(e) le : <?php echo $value1['dateNaissance']." à ".$value1['lieuNaissance'] ; ?>
+				<br><br>
+			</div>
+			<div class="a">
+				Classe : <?php echo $value['classe']; ?>
+				<br> Serie : <?php echo $value['serie']; ?>
+				<br> Nombre d'élèves : 05
+				<br><br>
+			</div>
+			<div class="b">
+				Classe doublée : Néant
+				<br> Année doublée : Néant
+				<br><br>
+			</div>
+		</div>
+
+		<form>
+
+			<table class="tb1">
+				<tr>
+					<th>DISCIPLINES</th>
+					<th class="dv">DEVOIRS</th>
+					<th class="compo">COMPOSITION</th>
+					<th class="moy">MOYENNE</th>
+					<th class="coef">COEF</th>
+					<th class="moyX">MOYENNE X</th>
+					<th class="th">TH</th>
+					<th class="rang">RANG</th>
+					<th class="app">APPRECIATIONS</th>
+				</tr>
+				<tr>
+					<th><?php echo $value['matiere']; ?></th>
+					<td><?php echo $value['noteDevoir']; ?></td>
+					<td><?php echo $value['noteComposition']; ?></td>
+					<td><?php echo $value['moyenne']; ?></td>
+					<td><?php echo $value['coef']; ?></td>
+					<td><?php echo $value['moyenneX']; ?></td>
+					<td>TH</td>
+					<td><?php echo $value['rang']; ?></td>
+					<td><?php echo $value['appreciation']; ?></td>
+				</tr>
+				<tr>
+					<th><?php echo $value['matiere']; ?></th>
+					<td><?php echo $value['noteDevoir']; ?></td>
+					<td><?php echo $value['noteComposition']; ?></td>
+					<td><?php echo $value['moyenne']; ?></td>
+					<td><?php echo $value['coef']; ?></td>
+					<td><?php echo $value['moyenneX']; ?></td>
+					<td>TH</td>
+					<td><?php echo $value['rang']; ?></td>
+					<td><?php echo $value['appreciation']; ?></td>
+				</tr>
+				<tr>
+					<th><?php echo $value['matiere']; ?></th>
+					<td><?php echo $value['noteDevoir']; ?></td>
+					<td><?php echo $value['noteComposition']; ?></td>
+					<td><?php echo $value['moyenne']; ?></td>
+					<td><?php echo $value['coef']; ?></td>
+					<td><?php echo $value['moyenneX']; ?></td>
+					<td>TH</td>
+					<td><?php echo $value['rang']; ?></td>
+					<td><?php echo $value['appreciation']; ?></td>
+				</tr>
+				<tr>
+					<th><?php echo $value['matiere']; ?></th>
+					<td><?php echo $value['noteDevoir']; ?></td>
+					<td><?php echo $value['noteComposition']; ?></td>
+					<td><?php echo $value['moyenne']; ?></td>
+					<td><?php echo $value['coef']; ?></td>
+					<td><?php echo $value['moyenneX']; ?></td>
+					<td>TH</td>
+					<td><?php echo $value['rang']; ?></td>
+					<td><?php echo $value['appreciation']; ?></td>
+				</tr>
+				<tr>
+					<th><?php echo $value['matiere']; ?></th>
+					<td><?php echo $value['noteDevoir']; ?></td>
+					<td><?php echo $value['noteComposition']; ?></td>
+					<td><?php echo $value['moyenne']; ?></td>
+					<td><?php echo $value['coef']; ?></td>
+					<td><?php echo $value['moyenneX']; ?></td>
+					<td>TH</td>
+					<td><?php echo $value['rang']; ?></td>
+					<td><?php echo $value['appreciation']; ?></td>
+				</tr>
+				<tr>
+					<th><?php echo $value['matiere']; ?></th>
+					<td><?php echo $value['noteDevoir']; ?></td>
+					<td><?php echo $value['noteComposition']; ?></td>
+					<td><?php echo $value['moyenne']; ?></td>
+					<td><?php echo $value['coef']; ?></td>
+					<td><?php echo $value['moyenneX']; ?></td>
+					<td>TH</td>
+					<td><?php echo $value['rang']; ?></td>
+					<td><?php echo $value['appreciation']; ?></td>
+				</tr>
+				<tr>
+					<th><?php echo $value['matiere']; ?></th>
+					<td><?php echo $value['noteDevoir']; ?></td>
+					<td><?php echo $value['noteComposition']; ?></td>
+					<td><?php echo $value['moyenne']; ?></td>
+					<td><?php echo $value['coef']; ?></td>
+					<td><?php echo $value['moyenneX']; ?></td>
+					<td>TH</td>
+					<td><?php echo $value['rang']; ?></td>
+					<td><?php echo $value['appreciation']; ?></td>
+				</tr>
+				<tr>
+					<th>TOTAL</th>
+					<td colspan="3"></td>
+					<td></td>
+					<td></td>
+					<td colspan="3"></td>
+				</tr>
+				
+			</table>
+			<?php } } } ?>
+			<br/>
+			<?php
+			$req = $pdo->prepare("SELECT moyGenerale, rang FROM noteSemestre
+			  WHERE noteSemestre.nomSemestre='".$_POST['semestre']."'
+			    AND noteSemestre.classe='".$_POST['classe']."'
+			    AND noteSemestre.anneeScolaire='".$_POST['anneeScolaire']."'
+			    AND noteSemestre.eleve='".$value1['eleve']."'
+			     ");
+			$req->execute();
+
+			if ($req){
+			          
+			        $nbreLigne = $req->fetchAll();
+			        //var_dump($nbreLigne);
+			        $i = 0;
+			        foreach ($nbreLigne as $key => $value2) {
+			        	$i = ++$i; 
+
+				        if ($i < $nbreLigne) {                       
+				                      
+					        $moyGenerale = $value2['moyGenerale'];
+					        $rang = $value2['rang'];
+
+			?>
+			<table>
+				<tr>
+					<th>MOYENNE <br> SEMESTRIELLE</th>
+					<th>RANG</th>
+					<th>APPRECIATIONS</th>
+					<th colspan="2">ABSENCES</th>
+					<th rowspan="7" class="large">Pour le conseil des Professeurs <br> <br> <br> Le chef d'Etablissement</th>
+				</tr>
+				<tr>
+					<td rowspan="2"><center><?php echo $moyGenerale; ?></center></td>
+					<td rowspan="2"><center><?php echo $rang; ?></center></td>
+					<td rowspan="2"></td>
+					<td>Justifier</td>
+					<td>Non Justifier</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<th colspan="5">REMARQUE DU CONSEIL</th>
+				</tr>
+				<tr>
+					<th colspan="5"></th>
+				</tr>
+				<tr>
+					<th>FELICITATION</th>
+					<th>ENCOURAGEMENT</th>
+					<th>TABLEAU D'HONEUR</th>
+					<th>AVERTISSEMENT</th>
+					<th>BLAME</th>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</table>
+		</form>
+<br><br><br><br><br><br><br><br><br><br>
+</div>
+
+		<?php } } } } }}} ?>
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+	table {
+	border-collapse: collapse;
+	border: 1px solid #0000FF;
+	width: 95%;	
+	margin-left: 15px;
+	}
+	tr, td, th {
+		border: 1px solid Black;
+		height: 40px;	
+	}
+	p{
+		margin-left: 25px;
+	}
+	b{
+		margin-left: 250px;
+	}
+	div , .infoEleve{	
+		float: left;
+	 	display:block;
+	 	margin-left: 10px;
+	}
+	div , .infoEcole{	
+		float: left;
+	 	display:block;
+	 	margin-left: 10px;
+	}
+	.a{
+		margin-left: 60px;
+	}
+	.b{
+		margin-left: 60px;
+	}
+	.c{
+		margin-left: 10px;
+	}
+	.d{
+		margin-left: 340px;
+	}
+</style>
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Saisie de la note de chaque élève selon le niveau
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Examples</a></li>
+        <li class="active">User profile</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <div class="box box-primary">
+
+      <form action="" method="post" role="form" class="box-body">
+			
+				<table id="tableau" border="1" class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+					<tr>
+						<td>
+							<div class="col-md-8 col-lg-8 col-xs-12 col-sm-8">
+								<label>Niveau :</label>      
+								<select id="niveau" name='niveau' class="form-control">
+					            <option selected="selectionner"><?php if (isset($_POST['niveau'])){echo $_POST['niveau'];} ?></option>
+					            <?php 
+						            $req = $pdo->prepare('SELECT DISTINCT niveau FROM niveau order by niveau asc');
+						            $req->execute();
+						             
+						            if($req){
+						              $nbreLigne = $req->fetchAll();
+						              //var_dump($nbreLigne);
+						              foreach ($nbreLigne as $key => $value) { 
+						               //$user = $req->fetch();
+						                	echo"<option>".$value[0]."</option>";
+						              }
+						            }
+						        ?>
+					            </select>
+							</div>
+						</td>
+						<td>
+							<div class="col-md-8 col-lg-8 col-xs-12 col-sm-8">
+								<label> Classe : </label>    
+								<select id="classe" name='classe' class="form-control">
+					            <option selected="selectionner"><?php if (isset($_POST['classe'])){echo $_POST['classe'];} ?></option>   
+					            <?php 
+						            $req = $pdo->prepare('SELECT DISTINCT nom FROM classe order by nom asc');
+						            $req->execute();
+						             
+						            if($req){
+						              $nbreLigne = $req->fetchAll();
+						              //var_dump($nbreLigne);
+						              foreach ($nbreLigne as $key => $value) { 
+						               //$user = $req->fetch();
+						                	echo"<option>".$value[0]."</option>";
+						              }
+						            }
+						        ?>
+					            </select>
+							</div>
+						</td>
+						<td>
+							<div class="col-md-8 col-lg-8 col-xs-12 col-sm-8">
+								<label> Annee Scolaire : </label>    
+								<select id="anneeScolaire" name='anneeScolaire' class="form-control">
+					            <option selected="selectionner"><?php if (isset($_POST['anneeScolaire'])){echo $_POST['anneeScolaire'];} ?></option>   
+					            <?php 
+						            $req = $pdo->prepare('SELECT DISTINCT anneeScolaire FROM anneescolaire order by anneeScolaire asc');
+						            $req->execute();
+						             
+						            if($req){
+						              $nbreLigne = $req->fetchAll();
+						              //var_dump($nbreLigne);
+						              foreach ($nbreLigne as $key => $value) { 
+						               //$user = $req->fetch();
+						                	echo"<option>".$value[0]."</option>";
+						              }
+						            }
+						        ?>
+					            </select>
+							</div>
+						</td>
+					</tr>
+					
+					<tr>
+						<td>
+							<div class="col-md-8 col-lg-8 col-xs-12 col-sm-8">
+								<label> Semestre : </label>
+								<select id="semestre" name='semestre' class="form-control">
+						            <option selected="selectionner"><?php if (isset($_POST['semestre'])){echo $_POST['semestre'];} ?></option>
+						            <option>Semestre 1</option>
+						            <option>Semestre 2</option>
+					            </select>    						
+							</div>
+						</td>
+						<td>
+							<div class="col-md-8 col-lg-8 col-xs-12 col-sm-8">
+							 
+							</div>
+						</td>
+						<td>
+							<div class="col-md-8 col-lg-8 col-xs-12 col-sm-8">
+								<label> Serie : </label>    
+								<select id="serie" name='serie' class="form-control">
+					            <option selected="selectionner"><?php if (isset($_POST['serie'])){echo $_POST['serie'];} ?></option>   
+					            <?php 
+						            $req = $pdo->prepare('SELECT DISTINCT serie FROM serie order by serie asc');
+						            $req->execute();
+						             
+						            if($req){
+						              $nbreLigne = $req->fetchAll();
+						              //var_dump($nbreLigne);
+						              foreach ($nbreLigne as $key => $value) { 
+						               //$user = $req->fetch();
+						                	echo"<option>".$value[0]."</option>";
+						              }
+						            }
+						        ?>
+					            </select> 
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th colspan="3"> <input type='submit' id='liste' name='liste' class="btn btn-primary" value="Afficher bulletins" /> </th>
+					</tr>
+					
+				</table>								
+		</form>
+     <br><br><br><br><br>
+		<?php 
+      		if (!empty($_POST['semestre']) && !empty($_POST['classe']) && !empty($_POST['anneeScolaire'])
+      		 && !empty($_POST['niveau']) && !empty($_POST['serie']) ) {
+        ?>
+
+		<div id='section2Aimprimer'>
+
+		<?php
+              
+		  echo"<table>";
+			echo "<tr>";
+				echo"<th>DISCIPLINES</th>";
+				echo"<th class='dv'>DEVOIRS</th>";
+				echo"<th class='compo'>COMPOSITION</th>";
+				echo"<th class='moy'>MOYENNE</th>";
+				echo"<th class='coef'>COEF</th>";
+				echo"<th class='moyX'>MOYENNE X</th>";
+				echo"<th class='th'>TH</th>";
+				echo"<th class='rang'>RANG</th>";
+				echo"<th class='app'>APPRECIATIONS</th>";
+			echo"</tr>";
+
+        /*   
+
+		  $req = $pdo->prepare("SELECT DISTINCT eleve, matiere FROM note 
+
+            WHERE note.nomSemestre='".$_POST['semestre']."'
+              AND note.classe='".$_POST['classe']."'
+              AND note.anneeScolaire='".$_POST['anneeScolaire']."'
+              AND note.niveau='".$_POST['niveau']."'
+              AND note.serie='".$_POST['serie']."' ");
+		  $req->execute();
+		  if ($req){    
+	        $nbreLigne = $req->fetchAll();
+	        $i = 0;
+	        foreach ($nbreLigne as $key => $value) {
+	        	$i = ++$i; 
+	        	if ($i < $nbreLigne) {
+
+		 
+		 $req1 = $pdo->prepare("SELECT DISTINCT matiere FROM note 
+
+            WHERE note.nomSemestre='".$_POST['semestre']."'
+              AND note.classe='".$_POST['classe']."'
+              AND note.anneeScolaire='".$_POST['anneeScolaire']."'
+              AND note.niveau='".$_POST['niveau']."'
+              AND note.serie='".$_POST['serie']."'
+              AND note.eleve='".$value['eleve']."' ");
+		  $req1->execute();
+		  if ($req1){    
+	        $nbreLigne1 = $req1->fetchAll();
+	        $i1 = 0;
+	        foreach ($nbreLigne1 as $key => $value1) {
+	        	$i1 = ++$i1; 
+	        	if ($i1 < $nbreLigne1) {
+		*/
+
+		  $req2 = $pdo->prepare("SELECT * FROM note 
+
+            WHERE note.nomSemestre='".$_POST['semestre']."'
+              AND note.classe='".$_POST['classe']."'
+              AND note.anneeScolaire='".$_POST['anneeScolaire']."'
+              AND note.niveau='".$_POST['niveau']."'
+              AND note.serie='".$_POST['serie']."' ");
+		  $req2->execute();
+
+          if ($req2){
+    
+	        $nbreLigne2 = $req2->fetchAll();
+	        $i2 = 0;
+	        foreach ($nbreLigne2 as $key => $value2) {
+	        	$i2 = ++$i2; 
+	        	//if ($i2 < $nbreLigne2) {
+
+
+		        	echo "<tr>";
+		        		echo "<td>".$value2['matiere']."</td>";
+		        		echo "<td>".$value2['noteDevoir']."</td>";
+		        		echo "<td>".$value2['noteComposition']."</td>";
+		        		echo "<td>".$value2['moyenne']."</td>";
+		        		echo "<td>".$value2['coef']."</td>";
+		        		echo "<td>".$value2['moyenneX']."</td>";
+		        		echo "<td>TH</td>";
+		        		echo "<td>".$value2['rang']."</td>";
+		        		echo "<td>".$value2['appreciation']."</td>";
+		        	echo "</tr>";
+		        	
+		   }} //}}}
+		   echo "</table>";
+		   echo "<br>";
+
+		  $req3 = $pdo->prepare("SELECT moyGenerale, rang, appreciation FROM noteSemestre
+			  WHERE noteSemestre.nomSemestre='".$_POST['semestre']."'
+			    AND noteSemestre.classe='".$_POST['classe']."'
+			    AND noteSemestre.anneeScolaire='".$_POST['anneeScolaire']."'
+			    AND noteSemestre.eleve='".$value2['eleve']."'
+			     ");
+			$req3->execute();
+
+			if ($req3){
+			          
+			        $nbreLigne3 = $req3->fetchAll();
+			        //var_dump($nbreLigne);
+			        $i3 = 0;
+			        foreach ($nbreLigne3 as $key => $value3) {
+			        	$i3 = ++$i3; 
+
+				        if ($i3 == 7) {                       
+				                      
+					        $moyGenerale = $value3['moyGenerale'];
+					        $rang = $value3['rang'];
+					        $appreciation = $value3['appreciation'];
+
+			echo"<table>";
+				echo"<tr>";
+					echo"<th>MOYENNE <br> SEMESTRIELLE</th>";
+					echo"<th>RANG</th>";
+					echo"<th>APPRECIATIONS</th>";
+					echo"<th colspan='2'>ABSENCES</th>";
+					echo"<th rowspan='7' class='large'>Pour le conseil des Professeurs <br> <br> <br> Le chef d'Etablissement</th>";
+				echo"</tr>";
+				echo"<tr>";
+					echo"<td rowspan='2'><center>".$moyGenerale."</center></td>";
+					echo"<td rowspan='2'><center>".$rang."</center></td>";
+					echo"<td rowspan='2'>".$appreciation."</td>";
+					echo"<td>Justifier</td>";
+					echo"<td>Non Justifier</td>";
+				echo"</tr>";
+				echo"<tr>";
+					echo"<td></td>";
+					echo"<td></td>";
+				echo"</tr>";
+				echo"<tr>";
+					echo"<th colspan='5'>REMARQUE DU CONSEIL</th>";
+				echo"</tr>";
+				echo"<tr>";
+					echo"<th colspan='5'></th>";
+				echo"</tr>";
+				echo"<tr>";
+					echo"<th>FELICITATION</th>";
+					echo"<th>ENCOURAGEMENT</th>";
+					echo"<th>TABLEAU D'HONEUR</th>";
+					echo"<th>AVERTISSEMENT</th>";
+					echo"<th>BLAME</th>";
+				echo"</tr>";
+				echo"<tr>";
+					echo"<td></td>";
+					echo"<td></td>";
+					echo"<td></td>";
+					echo"<td></td>";
+					echo"<td></td>";
+				echo"</tr>";
+			echo"</table>";
+		echo"</form>";
+echo"<br><br><br><br><br><br><br><br><br><br>";
+		  }//}} 
+		}} 
+	}
+		?>
+
+
+
+	  </div>
+		
+		<script>
+		function imprimer(divName) {
+		      var printContents = document.getElementById(divName).innerHTML;    
+		   var originalContents = document.body.innerHTML;      
+		   document.body.innerHTML = printContents;     
+		   window.print();     
+		   document.body.innerHTML = originalContents;
+		   }
+		</script>
+
+		<button onClick="imprimer('section2Aimprimer')" class="btn btn-primary">Imprimer</button>
+
+
+	  </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+
+<?php 
+/*	$req = $pdo->prepare("SELECT eleve.prenom, eleve.nom, eleve.dateNaissance, eleve.lieuNaissance,
+		  		classe.nombreEleves, note.*
+		  				 FROM note, classe, eleve
+
+    WHERE note.nomSemestre='".$_POST['semestre']."'
+      AND note.classe='".$_POST['classe']."'
+      AND note.anneeScolaire='".$_POST['anneeScolaire']."'
+      AND note.niveau='".$_POST['niveau']."'
+      AND note.serie='".$_POST['serie']."'
+
+      AND note.eleve=eleve.matricule
+      AND classe.nom=note.classe
+      AND note.anneeScolaire=classe.anneeScolaire
+      
+      order by note.rang asc ");
+*/
+?>

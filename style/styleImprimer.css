@@ -1,0 +1,123 @@
+body {
+  width: auto!important;
+  margin: auto!important;
+  font-family: serif;
+  font-size: 12pt;
+  background-color: #fff!important;
+  color: #000!important;
+}
+p, h1, h2, h3, h4, h5, h6, blockquote, ul, ol {
+  color: #000!important;
+  margin: auto!important;
+}
+.print {
+  display: block; /* affichage des éléments de classe print */
+}
+p, blockquote {
+  orphans: 3; /* pas de ligne seule en bas */
+  widows: 3; /* pas de ligne seule en haut */
+}
+blockquote, ul, ol {
+  page-break-inside: avoid; /* pas de coupure dans ces élements */
+}
+h1 {
+  page-break-before: always; /* chaque titre commence sur une nouvelle page */
+}
+h1, h2, h3, caption {
+  page-break-after: avoid; /* pas de saut après ces éléments */
+}
+a {
+  color: #000!important;
+  text-decoration: underline!important;
+}
+a[href]:after {
+  content: " (" attr(href) ")"; /* affichage des URL des liens */
+}
+
+
+
+
+/* DEUXIEME EXEMPLE */
+
+
+
+
+
+body { /* Modifications : la couleur de fond de page - la police - l'unité utilisée pour la taille de la police  */
+  background-color :#fff;
+  font-family :Serif;
+  font-size :15pt;
+}
+
+#page { /* Modifications : suppression de la bordure - marges */
+  margin :0;
+  border :none;
+}
+
+#banner, #menuright, #footer { /* Les éléments qui ne seront pas affichés  */
+  display :none;
+}
+
+h1#top { /* Affichage du titre */
+  margin :0;
+  padding :0;
+  text-indent :0;
+  line-height :25pt;
+  font-size :25pt;
+}
+
+h2, h3, #contenu h3, #contenu a, a { /* Modification de la couleur des titres et liens */
+  color :#000;
+}
+
+
+
+
+
+
+/* TROIZIEME EXEMPLE */
+
+
+
+
+
+body {
+  background: white;
+  font-size: 12pt;
+  }
+#menu {
+  display: none;
+  }
+#wrapper, #content {
+  width: auto;
+  margin: 0 5%;
+  padding: 0;
+  border: 0;
+  float: none !important;
+  color: black;
+  background: transparent none;
+  }
+div#content {
+  margin-left: 10%;
+  padding-top: 1em;
+  border-top: 1px solid #930;
+  }
+div#mast {
+  margin-bottom: -8px;
+  }
+div#mast img {
+  vertical-align: bottom;
+  }
+a:link, a:visited {
+  color: #520;
+  background: transparent;
+  font-weight: bold;
+  text-decoration: underline;
+  }
+#content a:link:after, #content a:visited:after {
+  content: " (" attr(href) ") ";
+  font-size: 90%;
+  }
+#content a[href^="/"]:after {
+  content: " (http://www.alistapart.com" attr(href) ") ";
+  }
